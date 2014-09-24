@@ -1,12 +1,5 @@
 map = {}
 markers = {}
-# createIcon = (options={}, selected=false)->
-#     return new L.BlazeIcon
-#         iconSize: [18, 18]
-#         onCreate: (div)->
-#             view = Blaze.render Template._blazeIcon, div
-
-
 
 Template.mapbox.rendered = ->
     self = this
@@ -47,7 +40,6 @@ Template.mapbox.rendered = ->
                     iconSize: [18, 18]
                     onCreate: (div)->
                         view = Blaze.renderWithData self.view.templateContentBlock, room, div, self.view
-                        # view = Blaze.renderWithData Template._blazeIcon, room, div
                         views[id] = view
                         
 
@@ -62,21 +54,6 @@ Template.mapbox.rendered = ->
             if map.hasLayer marker
                 map.removeLayer marker
                 delete markers[id]
-
-    # self.autorun ->
-    #     options = Blaze.getData(self.view)
-    #     if options.selection?._id?
-    #         for id, marker of markers
-    #             marker.setIcon new L.BlazeIcon
-    #                 iconSize: [18, 18]
-    #                 onCreate: (div)->
-    #                     view = Blaze.renderWithData self.view.templateContentBlock, room, div
-    #                     # view = Blaze.renderWithData Template._blazeIcon, room, div
-    #                     views[id] = view
-
-# Template.mapbox.created = ->
-#     self = this
-
 
 
 

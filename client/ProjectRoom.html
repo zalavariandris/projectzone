@@ -13,10 +13,10 @@
 
     <ul id="room-list">
         {{#each rooms}}
-            <li class={{#if isSelected}}selected{{/if}}>{{title}}>{{title}}</li>
+            <li class={{#if isSelected}}selected{{/if}}>{{title}}</li>
         {{/each}}
     </ul>
-    
+
     <div id="room-editor">
         {{#with selectedItem}}
             selection: {{this.title}}
@@ -25,12 +25,9 @@
                 <button type="submit">update</button>
             </form>
         {{else}}
-
             - no selection -
         {{/with}}
     </div>
-
-    {{!-- {{>roomList items=rooms id="room-list" selection=selection}} --}}
 </body>
 
 <template name="roomList">

@@ -4,7 +4,7 @@ Template.body.helpers
 
     selectedItem: ->
         Rooms.findOne Session.get('selection')
-        
+
     isSelected: ->
         item = Template.currentData()
         selection = Rooms.findOne Session.get('selection')
@@ -28,14 +28,6 @@ Template.body.events
         try
             Session.set 'selection', Blaze.getData(event.target)._id
         catch error
-
-    # 'click #room-map': (event, template)->
-    #     debugger
-
-# roomList
-# Template.roomList.created = ->
-#     selection = new ReactiveVar()
-#     selection.set null
 
 Template.roomList.helpers
     isSelected: ->
