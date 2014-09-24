@@ -1,0 +1,45 @@
+<head>
+    <title>ProjectRoom</title>
+</head>
+
+<body>
+    <h1>mapbox</h1>
+
+    {{#mapbox items=rooms id="room-map"}}
+        <div style="white-space: nowrap">
+            {{title}}{{#if isSelected}}SELECTED{{/if}}
+        </div>
+    {{/mapbox}}
+
+    <ul id="room-list">
+        {{#each rooms}}
+            <li class={{#if isSelected}}selected{{/if}}>{{title}}>{{title}}</li>
+        {{/each}}
+    </ul>
+    
+    <div id="room-editor">
+        {{#with selectedItem}}
+            selection: {{this.title}}
+            <form >
+                <input type="text" name="title" value={{this.title}} placeholder="title">
+                <button type="submit">update</button>
+            </form>
+        {{else}}
+
+            - no selection -
+        {{/with}}
+    </div>
+
+    {{!-- {{>roomList items=rooms id="room-list" selection=selection}} --}}
+</body>
+
+<template name="roomList">
+    <div id={{id}}>
+        
+        <ul>
+            {{#each items}}
+            <li class={{#if isSelected}}selected{{/if}}>{{title}} <small>{{_id}}</small></li>
+            {{/each}}
+        </ul>
+    </div>
+</template>
