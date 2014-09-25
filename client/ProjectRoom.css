@@ -28,6 +28,6 @@ body{
 ul{
     margin: 0;
 }
-ul>li.selected{
+.selected{
     background-color: yellow;
 }

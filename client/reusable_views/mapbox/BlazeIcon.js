@@ -18,8 +18,8 @@ L.BlazeIcon = L.Icon.extend({
     },
 
     createIcon: function (oldIcon) {
-        var div = (oldIcon && oldIcon.tagName === 'DIV') ? oldIcon : document.createElement('div'),
-            options = this.options;
+        var div = (oldIcon && oldIcon.tagName === 'DIV') ? oldIcon : document.createElement('div');
+        var options = this.options;
 
         /* change compared to DivIcon*/
         if(options.onCreate){
