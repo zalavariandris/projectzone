@@ -1,13 +1,45 @@
 <head>
-    <title>ProjectRoom</title>
+    <title>Projectzone</title>
 </head>
 
-<body>
-    <h1>mapbox</h1>
+<template name="layout">
+    <div class="modal panel">{{>yield region='modal'}}</div>
+    {{>yield}}
 
-    {{#mapbox items=rooms id="room-map"}}
-        <span style="white-space: nowrap" class="marker {{#if isSelected}}selected{{/if}}">{{title}}</span>
-    {{/mapbox}}
+    {{#if infoPageIsOpen}}
+    <div class="fade-in site-overlay" style="position: fixed; z-index: 1000; left:0; width: 100%; top:0; height:100%; background-color: hsla(180,100%,100%,0.6);">
+        <button 
+            class="close-about button"
+            style=" position: absolute; 
+                    left:50%;
+                    width: auto;
+                    font-size: 50px;
+                    margin-left: 305px;
+                    color: black;
+                    background: none;">×</button>
+        <iframe src="http://projectzone.hu/projectzone-partners.html" style=    "display: block; width: 610px; margin:auto; height: 100%; border: none;"></iframe>
+    </div>
+    {{else}}
+    <img class="button flag fade-in" style="position: fixed; top: 100px;" src="/flag.png">
+    {{/if}}
+</template>
+
+<template name="map">
+    <header>
+        <h1>mapbox</h1>
+    </header>
+
+    {{#leaflet items=rooms id="room-map" disabled=isDisabled}}
+        <div class="marker">
+            <div class="marker-pin"></div>
+            <svg width="16px" height="20px" style="position: absolute; top: -17px; left: 1px;">
+                <rect x="0.5" width="2" height="19" style="fill: white; stroke: black; stroke-width: 1;"/>
+                <polygon points="0,0 0,10 16,10 11,5 16,0" style="fill: {{#if isSelected}}cyan{{else}}black{{/if}};"/>
+            </svg>
+
+            <span class="marker-label {{#if isSelected}}selected{{/if}}">{{title}}</span>
+        </div>
+    {{/leaflet}}
 
     <ul id="room-list">
         {{#each rooms}}
@@ -15,25 +47,53 @@
         {{/each}}
     </ul>
 
-    <div id="room-editor">
+    <aside>{{#if currentUser}}
+        <div class="panel">
+            {{>miniLogin}}
+        </div>
+        <div id="room-editor" class="panel">
+            {{#with selectedItem}}
+                <form id="updateRoom">
+                    <input type="text" name="title" value={{this.title}} placeholder="name">
+                    <input type="text" name="site" value={{this.site}} placeholder="site url"><a href={{this.site}} target="_blank">go to site</a>
+                    <input type="text" name="opened" value={{this.opened}} placeholder="opened">
+                    <input type="text" name="closed" value={{this.closed}} placeholder="closed">
+                    <button type="submit">update</button>
+                </form>
+                <hr>
+                <form id="updateAddress">
+                    <input type="text" name="address" placeholder="address">
+                    <button type="submit">move marker</button>
+                </form>
+                <hr>
+                <button class="delete danger">delete</button>
+            {{else}}
+                -no selection-
+            {{/with}}
+        </div>
+    {{else}}
         {{#with selectedItem}}
-            selection: {{this.title}}
-            <form>
-                <input type="text" name="title" value={{this.title}} placeholder="title">
-                <button type="submit">update</button>
-            </form>
-        {{else}}
-            - no selection -
+        <div class="panel">
+            <header>
+                <h3>{{this.title}}</h3>
+                <p>({{this.opened}}-{{this.closed}})</p>
+            </header>
+            <a href={{this.site}} target="_blank">{{this.site}}</a>
+        </div>
         {{/with}}
+    {{/if}}</aside>
+
+    <div id="timerange">
+        <div>{{timeRange.begin}}–{{timeRange.end}}</div>
+        <div class='slider'></div>
     </div>
-</body>
+</template>
 
 <template name="roomList">
     <div id={{id}}>
-        
         <ul>
             {{#each items}}
-            <li class={{#if isSelected}}selected{{/if}}>{{title}} <small>{{_id}}</small></li>
+            <li class={{#if isSelected}}selected{{/if}}>{{title}}<small>{{_id}}</small></li>
             {{/each}}
         </ul>
     </div>

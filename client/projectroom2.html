@@ -1,0 +1,40 @@
+<template name="layout2">
+    {{>backgroundMap}}
+    {{>yield}}
+</template>
+
+<template name="backgroundMap">
+    {{#leaflet items=rooms id="room-map" disabled=isDisabled}}
+        <div class="marker">
+            <div class="marker-pin"></div>
+            <svg width="16px" height="20px" style="position: absolute; top: -17px; left: 1px;">
+                <rect x="0.5" width="2" height="19" style="fill: white; stroke: black; stroke-width: 1;"/>
+                <polygon points="0,0 0,10 16,10 11,5 16,0" style="fill: {{#if isSelected}}cyan{{else}}black{{/if}};"/>
+            </svg>
+
+            <span class="marker-label {{#if isSelected}}selected{{/if}}">{{title}}</span>
+        </div>
+    {{/leaflet}}
+</template>
+
+<template name="originalSite">
+    <div class="fade-in site-overlay" style="position: fixed; z-index: 1000; left:0; width: 100%; top:0; height:100%; background-color: hsla(180,100%,100%,0.6);">
+        <a
+            href="{{pathFor 'maponly'}}"
+            class="close-about button"
+            style=" position: absolute; 
+                    left:50%;
+                    width: auto;
+                    font-size: 50px;
+                    margin-left: 305px;
+                    color: black;
+                    background: none;">×</a>
+        <iframe src="http://projectzone.hu/projectzone-partners.html" style=    "display: block; width: 610px; margin:auto; height: 100%; border: none;"></iframe>
+    </div>
+</template>
+
+<template name="projectZoneLogo">
+    <a href="{{pathFor 'originalSite'}}">
+        <img class="button flag fade-in" style="position: fixed; top: 100px;" src="/flag.png">
+    </a>
+</template>

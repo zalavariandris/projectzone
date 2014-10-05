@@ -1,6 +1,65 @@
-Template.body.helpers
+Template.layout.events
+    'click .close-about': ()->
+        Session.set "infoPageIsOpen", false
+
+    'click .site-overlay': ()->
+        Session.set "infoPageIsOpen", false
+
+    'click .flag': ()->
+        Session.set "infoPageIsOpen", true
+
+Template.layout.helpers
+    infoPageIsOpen: ()->
+        Session.get 'infoPageIsOpen'
+
+Template.map.rendered = ()->
+    timeRange = Session.get 'timeRange'
+    # $('#timerange .slider').slider
+    #     range: true
+    #     min: 1989
+    #     max: 2014
+    #     values: [timeRange.begin, timeRange.end]
+    #     animate: 'slow'
+    #     orientation: 'horizontal'
+    #     slide: (event, ui)->
+    #         Session.set 'timeRange', 
+    #             begin: ui.values[0], 
+    #             end: ui.values[1]
+    $('#timerange .slider').noUiSlider
+        range:
+            min: 1989
+            max: 2014
+        start: [timeRange.begin, timeRange.end]
+        connect: true
+        step: 1
+        margin: 1
+        behaviour: "drag"
+
+    $('#timerange .slider').on 'slide', ()->
+        Session.set 'timeRange',
+            begin: parseInt $(this).val()[0]
+            end: parseInt $(this).val()[1]
+
+
+###
+        [==========================]
+[----------------]                       opened < begin, closed > begin
+            [---]                        opened > begin, closed < end
+                                [------] opened > begin, closed > end
+[------------------------------------]   opened < begin, closed > end
+###
+Meteor.startup ->
+    Session.set 'timeRange', {begin: 1989, end: 2014}
+    console.log "set timerange"
+
+Template.map.helpers
     rooms: ->
-        Rooms.find()
+        timeRange = Session.get('timeRange')
+        if timeRange then condition = $and: [
+            {$or: [{opened: $not: $type: 1}, {opened: $lte: timeRange.end}]},
+            {$or: [{closed: $not: $type: 1}, {closed: $gte: timeRange.begin}]},
+        ]
+        Rooms.find condition
 
     selectedItem: ->
         Rooms.findOne Session.get('selection')
@@ -12,29 +71,47 @@ Template.body.helpers
         unless item? and selection? then return null
         return item._id is selection._id
 
-Template.body.events
-Template.body.events
+    timeRange: ->
+        Session.get 'timeRange'
+
+Template.map.events
+    ###
+    # create rooms by dblclick on the map
+    ###
     'dblclick #room-map': (event, template)->
-        newId = Rooms.insert
-            latlng: event.latlng
-            title: "-room title-"
-        Session.set 'selection', newId
+        if Meteor.user()?
+            newId = Meteor.call 'room',
+                latlng: event.latlng
+                title: "-room title-"
+            Session.set 'selection', newId
 
-    'click #room-map':(event, template)->
-        # if the event.target has a ".marker" parent 
-        # then the user clicked on a marker, so select the correspondent room
-        # otherwise, the user was clicked on the map
-        # so deselect all room
-        if $(event.target).closest('.marker').length>0
-            room = Blaze.getData(event.target)
-            Session.set 'selection', room._id
-        else
-            Session.set 'selection', null
-
-    'submit #room-editor': (event, template)->
+    ###
+    # update the room
+    # either by dragging on the map to a new location, 
+    # or by submitting updates from the sidebar
+    ###
+    'submit #updateRoom': (event, template)->
         event.preventDefault()
         Rooms.update Session.get('selection'), $set: 
             title: $(event.target.title).val()
+            opened: parseInt($(event.target.opened).val()) or null
+            closed: parseInt($(event.target.closed).val()) or null
+            site: $(event.target.site).val() or ""
+
+    'submit #updateAddress': (event, template)->
+        event.preventDefault()
+        HTTP.get "http://nominatim.openstreetmap.org/search",
+            params:
+                q: $(event.target.address).val(),
+                format: "json"
+            , (error, result)->
+                if error
+                    alert error.message
+                else
+                    json = JSON.parse(result.content)[0]
+                    latlon = {lat: json.lat, lon: json.lon}
+                    Rooms.update Session.get('selection'), $set:
+                        latlng: latlon
 
     'dragend': (event, template)->
         # this is a hack. since the leaflet marker's div element 
@@ -46,9 +123,30 @@ Template.body.events
         Rooms.update room._id, $set:
             latlng: event.latlng
 
+    ### 
+    # manage selection, on the map and the list
+    ###
+    'click #room-map':(event, template)->
+        # if the event.target has a ".marker" parent 
+        # then the user clicked on a marker, so select the correspondent room
+        # otherwise, the user was clicked on the map, so clear the selection
+        if $(event.target).closest('.marker').length>0
+            room = Blaze.getData(event.target)
+            Session.set 'selection', room._id
+        else
+            Session.set 'selection', null
+
     'click #room-list': (event, template)->
         room = Blaze.getData(event.target)
         Session.set 'selection', room._id
+
+    ###
+    # remove rooms
+    ###
+    'click #room-editor .delete': (event, template)->
+        room = this
+        if confirm "delete?" then Rooms.remove room._id
+
 
 Template.roomList.helpers
     isSelected: ->
