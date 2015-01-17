@@ -6,7 +6,7 @@ Template.login.events
         event.preventDefault()
         Meteor.loginWithPassword event.target.email.value, event.target.password.value, (error)->
             if error then alert error.message
-            else Router.go 'map'
+            else Router.go '/'
 
     'submit #signup': (event, template)->
         event.preventDefault()
@@ -19,8 +19,14 @@ Template.login.events
             password: $(event.target.password).val()
         , (error)->
             if error then alert error.message
-            else Router.go 'map'
+            else Router.go '/'
 
 Template.miniLogin.events
     'click .logout': (event, template)->
         Meteor.logout()
+
+    'submit #login': (event, template)->
+        event.preventDefault()
+        Meteor.loginWithPassword event.target.email.value, event.target.password.value, (error)->
+            if error then alert error.message
+            # else Router.go '/map'

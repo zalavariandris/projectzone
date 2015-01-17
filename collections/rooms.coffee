@@ -1,15 +1,15 @@
+
+ownsDocument = (userId, doc)->
+  return doc? and doc.owner is userId
+
 @Rooms = new Mongo.Collection 'rooms'
 
-if Meteor.isServer
-    Rooms.remove {}
-
-
-
 Rooms.allow
-    # update: ownsDocument
-    update: Meteor.user
+    update: ownsDocument
+    # update: Meteor.user
 
-    remove: Meteor.user
+    remove: ()->
+        return falser
 
 Meteor.methods
     'room': (attributtes)->
@@ -31,3 +31,37 @@ Meteor.methods
         itemId = Rooms.insert item
 
         return itemId
+
+Schemas = {}
+
+Schemas.Room = new SimpleSchema
+    title:
+        type: String
+        label: "Title"
+        max: 200
+
+    submitted:
+        type: Date
+        label: "Submitted"
+        blackbox: true
+        autoform:
+            type: 'hidden'
+
+    opened:
+        type: Number
+        label: "Opened"
+        optional: true
+
+    closed:
+        type: Number
+        label: "Closed"
+        optional: true
+
+    # latlng
+    # owner
+    
+    validated:
+        type: Boolean
+        optional: true
+
+Rooms.attachSchema Schemas.Room

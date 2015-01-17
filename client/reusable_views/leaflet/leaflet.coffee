@@ -21,9 +21,14 @@ Template.leaflet.rendered = ->
         touchZoom: false
         center: L.latLng(47.50, 19.055)
         zoom: 13
+        zoomControl: false
         minZoom: 12
-        maxZoom: 16
+        maxZoom: 17
         maxBounds: L.latLngBounds L.latLng(47.42669366522116, 18.921890258789062), L.latLng(47.573283112482144, 19.188308715820312)
+
+    zoomCtrl = L.control.zoom(position: "bottomleft")
+    map.addControl zoomCtrl
+
 
     App.map = map
     self.autorun ->

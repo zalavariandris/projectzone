@@ -36,24 +36,44 @@ body{
     height: 100%;
     width: 100%;
 }
+#room-map .leaflet-bar{
+    box-shadow: none;
+    border-radius: 0;
+    background: cyan;
+    color: white;
+}
+#room-map .leaflet-bar a, #room-map .leaflet-bar a:first-child, #room-map .leaflet-bar a:last-child{
+    border-radius: 0;
+    background-color: cyan;
+    color: white;
+}
 
-#room-map .marker svg{
+#room-map .marker .flag{
+    position: absolute;
+    top: -22px;
+    left: -1px;
     -webkit-transform-origin-y: 20px;
     -webkit-animation: dropIn ease-in 0.5s;
     -webkit-animation-fill-mode:forwards;
 }
 #room-map .marker-pin{
     position: absolute;
+    top: -2px;
+    left: -2px;
     background-color: hsla(0,0%,0%,0.3);
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
     border-radius: 100%;
 }
 
 #room-map .marker-label{
+    position: absolute;
+    top: 2px;
+    left: -5px;
     -webkit-animation: fadeIn ease-in 0.1s;
     white-space: nowrap;
     background-color: yellow;
+    color: hsla(0,0%,30%,1);
 }
 #room-map .marker-label.selected{
     background-color: cyan;
@@ -74,6 +94,7 @@ aside{
     position: fixed;
     width: 100%;
     padding: 1em 1em;
+    padding-left: 46px;
     box-sizing: border-box;
 }
 
@@ -167,6 +188,7 @@ body .noUi-handle.noUi-handle-lower{
     box-shadow: 0 1px 5px hsla(0,0%,0%,0.1);
     padding: 1em;
     font-size: 0.8rem;
+    color: white;
 }
 /*modal*/
 .modal{

@@ -3,9 +3,9 @@
         <small>{{currentUser.emails.[0].address}}</small>
         <button class="logout">logout</button>
     {{else}}
-        <form>
-            <input type="email">
-            <input type="password">
+        <form id="login">
+            <input type="email" name="email" placeholder="email">
+            <input type="password" name="password" placeholder="password">
             <button type="submit">login</button>
         </form>
     {{/if}}
@@ -15,16 +15,16 @@
     {{#unless currentUser}}
         <h2>login</h2>
         <form id="login">
-            email: <input name="email" type="email">
-            password: <input name="password" type="password">
+            email: <input name="email" type="email" placeholder="email">
+            password: <input name="password" type="password" placeholer="password">
             <button type="submit">login</button>
         </form>
         <hr>
         <h2>signup</h2>
         <form id="signup">
             email: <input name="email" type="email">
-            password: <input name="password" type="password">
-            retype password: <input name="password2" type="password">
+            password: <input name="password" type="password" autocomplete="off">
+            retype password: <input name="password2" type="password" autocomplete="off">
             <button type="submit">signup</button>
         </form>
     {{else}}
