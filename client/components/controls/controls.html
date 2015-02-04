@@ -1,0 +1,14 @@
+<template name="controls">
+    {{#if currentUser}}
+        <a href="/login">{{username}}</a>
+        {{#if isAdmin}}
+            <a href="/invites">invites<span style="background: crimson; color: white; border-radius: 100%; font-size: 0.8em; display: inline-block; min-width: 1.2em; height: 1.2em; text-align: center;">{{newRequestsCount}}</span></a>
+        {{/if}}
+        {{#if isWebmaster}}
+            <a href="/admins">admins</a>
+        {{/if}}
+    {{else}}
+        <a href="/login">login</a>
+        <a href="/request">request invitation</a>
+    {{/if}}
+</template>

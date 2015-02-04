@@ -4,33 +4,20 @@ ownsDocument = (userId, doc)->
 
 @Rooms = new Mongo.Collection 'rooms'
 
+# if Meteor.isServer then Rooms.remove {}
+
 Rooms.allow
-    update: ownsDocument
-    # update: Meteor.user
+    insert: Meteor.user
+
+    update: (userId, doc)->
+        OwnsDocument = ownsDocument(userId, doc)
+        IsAdmin = Roles.userIsInRole(userId, 'admin')
+        console.log "IsAdmin: #{IsAdmin}, OwnsDocument: #{OwnsDocument}"
+        return IsAdmin or OwnsDocument
 
     remove: ()->
-        return falser
+        return false
 
-Meteor.methods
-    'room': (attributtes)->
-        user = Meteor.user()
-
-        #ensure the user is logged in
-        unless user then throw new Meteor.Error 401, "You must login to login!"
-
-        #ensure site has a latlng
-        unless attributtes.latlng then throw new Meteor.Error 422, "Please provide a coords"
-
-        # pick out the whitlisted keys
-        item = _.extend(_.pick(attributtes, 'latlng', 'title', 'opened', 'closed'),{
-            owner: user._id
-            submitted: Date.now()
-            validated: not @isSimulation
-        })
-
-        itemId = Rooms.insert item
-
-        return itemId
 
 Schemas = {}
 
@@ -40,12 +27,52 @@ Schemas.Room = new SimpleSchema
         label: "Title"
         max: 200
 
-    submitted:
+    site:
+        type: String
+        label: "website"
+        max: 200
+        optional: true
+
+    latlng:
+        type: Object
+        label: "latlng"
+    
+    'latlng.lat':
+        type: Number
+        decimal: true
+
+    'latlng.lng': 
+        type: Number
+        decimal: true
+
+    createdAt:
         type: Date
-        label: "Submitted"
-        blackbox: true
-        autoform:
-            type: 'hidden'
+        autoValue: ()->
+            if this.isInsert
+                return new Date
+            else if this.isUpsert
+                return {$setOnInsert: new Date}
+            else
+                this.unset()
+        denyUpdate: true
+
+    updatedAt:
+        type: Date
+        autoValue: ->
+            if @isUpdate then return new Date
+        denyInsert: true
+        optional: true
+
+    owner:
+        type: String
+        autoValue: ()->
+            if @isInsert
+                this.userId
+
+    canEdit:
+        type: [String]
+        optional: true
+
 
     opened:
         type: Number
@@ -57,10 +84,11 @@ Schemas.Room = new SimpleSchema
         label: "Closed"
         optional: true
 
-    # latlng
-    # owner
-    
     validated:
+        type: Boolean
+        optional: true
+
+    deleted:
         type: Boolean
         optional: true
 

@@ -1,0 +1,133 @@
+/* CSS declarations go here */
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+
+
+
+a{
+    color: inherit;
+}
+.fade-in{
+    -webkit-animation: fadeIn ease-in 0.1s;
+}
+/*
+ * LAYOUT
+ */
+body{
+    margin: auto;
+    box-sizing: content-box;
+    font-family: "courier new";
+    font-family: arial;
+}
+
+
+/*
+ * RESET
+ */
+ul{
+    margin: 0;
+}
+
+/*
+ * STYLE
+ */
+.selected{
+    background-color: yellow;
+}
+/*
+ * MODULES
+ */
+ /* button */
+ .button{
+    cursor: pointer;
+ }
+/* noUiSlider*/
+body .noUi-target{
+    border: none;
+    box-shadow: none;
+}
+body .noUi-horizontal .noUi-handle {
+    width: 10px;
+    left: -5px;
+    height: 18px;
+    top: 0;
+    background: cyan;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+body .noUi-horizontal .noUi-handle:after, body .noUi-horizontal .noUi-handle:before{
+    display: none;
+}
+body .noUi-connect{
+    box-shadow: none;
+    background-color: white;
+    background-image: url(/rectangles.svg)
+}
+body .noUi-background{
+    box-shadow: none;
+    background: white;;
+}
+body .noUi-dragable{
+    cursor: ew-resize;
+}
+body .noUi-handle.noUi-handle-upper{
+    cursor: e-resize;
+}
+body .noUi-handle.noUi-handle-lower{
+    cursor: w-resize;
+}
+ /*slider*/
+ .ui-slider{
+    position: relative;
+    background-color: hsla(0,0%,0%,0.3);
+    height: 10px;
+    padding-right: 10px;
+}
+.ui-slider-handle{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: cyan;
+    display: block;
+    outline: none;
+}
+.ui-slider-handle:nth-of-type(1){
+    margin-left: -10px;
+}
+.ui-slider-range{
+    position: absolute;
+    display: block;
+    height: 10px;
+    background-color: cornsilk;
+}
+
+/*panel*/
+.panel{
+    background-color: cyan;
+    box-shadow: 0 1px 5px hsla(0,0%,0%,0.1);
+    padding: 1em;
+    font-size: 0.8rem;
+    color: white;
+}
+/*modal*/
+.modal{
+    position: fixed;
+    top: 7em;
+    margin: auto;
+    width: 16em;
+    left: 50%;
+    margin-left: -8em;
+    z-index: 10;
+}
+.modal:empty{
+    display: none;
+}
+
+
+
+hr{
+    border: none;
+    height: 1px;
+    background-color: ghostwhite;
+}

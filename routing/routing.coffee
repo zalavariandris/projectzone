@@ -1,17 +1,31 @@
-Router.map ->
-    this.route 'maponly',
-        path: "/map"
-        layoutTemplate: "layout"
-        template: "projectZoneLogo"
+Router.route "index",
+    path: "/"
+    waitOn: ->
+        Meteor.subscribe 'rooms', {'deleted': $exists: false}
 
-    this.route 'originalSite',
-        path: "/"
-        layoutTemplate: "layout"
-        template: "originalSite"
+    action: ->
+        @layout "layout"
+        @render "blog_page"
 
-    this.route 'login',
-        path: "/login"
-        layoutTemplate: "layout"
-        template: "projectZoneLogo"
-        yieldTemplates:
-            'login': to: "modal"
+Router.route "/map",
+    waitOn: ->
+        Meteor.subscribe 'rooms', {'deleted': $exists: false}
+        Meteor.subscribe '/invites'
+        
+    action: ()->
+        @layout "layout"
+        @render "map_page"
+
+# Router.route 'map',
+#     path: '/map'
+#     layoutTemplate: 'layoutOverlay'
+#     template: 'map'
+#     onBeforeAction: ->
+#         Session.set 'currentRoute', 'map'
+#         @next()
+
+# Router.route "/login",
+#     action: ()->
+#         @layout "layout"
+#         @render "login_page"
+

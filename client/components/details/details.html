@@ -1,0 +1,13 @@
+<template name="details">
+    {{#if selectedItem}}
+        <div class="panel">
+            {{>room}}
+        </div>
+    {{else}}
+        {{#if currentUser}}
+        <div class="panel">
+            {{>tools}}
+        </div>
+        {{/if}}
+    {{/if}}
+</template>

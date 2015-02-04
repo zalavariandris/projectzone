@@ -1,0 +1,54 @@
+/*
+this stylesheet only set the look of user interface element.
+elements like button, form, input etc.
+and sets only properties defining only the appearance: color, border, background etc.
+and not anz stle related to layout or position
+(except the element's own size, like margin, padding, width or height)
+*/
+
+/*reset*/
+input, button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+
+    font-family: inherit;
+    outline: none;
+    border: none;
+
+    cursor: pointer;
+}
+
+input, button{
+    background: ghostwhite;
+}
+
+button, .button{
+    cursor: pointer;
+}
+input{
+    cursor: text;
+}
+
+button.fa{
+    color: inherit;
+    background: none;
+    padding: 0;
+    min-width: 1.5em;
+    min-height: 1.5em;
+}
+
+button.danger{
+    background-color: crimson;
+    color: white;
+}
+
+button.active{
+    background-color: hsla(0,0%,50%,0.3);
+}
+
+.label{
+    
+}
+

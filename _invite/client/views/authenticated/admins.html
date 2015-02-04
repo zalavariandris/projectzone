@@ -1,0 +1,25 @@
+<template name="admins">
+    <table>
+        <thead>
+            <tr>
+                <td>email</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>
+                    {{email}}
+                </td>
+                <td>
+                    {{#if isAdmin}}
+                        <button class="admin danger">remove admin</button>
+                    {{else}}
+                        <button class="admin">make admin</button>
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</template>

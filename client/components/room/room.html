@@ -1,0 +1,34 @@
+<template name="room">
+    {{#with selectedItem}}
+        {{#unless disabled}}
+            <section>
+                {{#autoForm collection="Rooms" doc=this id="insertRoomForm" type="update"}}
+                    <h3>{{>afQuickField name='title' label=false placeholder="Name"}}</h3>
+                    {{>afQuickField name='opened' label=false placeholder="opened"}}
+                    {{>afQuickField name='closed' label=false placeholder="closed"}}
+                    {{>afQuickField name='site' label=false placeholder="website"}}
+                    <button type="submit" style="float: left">Update</button>
+                    <button class="cancel">Cancel</button>
+                {{/autoForm}}
+                <hr>
+                <button class="remove danger">Delete</button>
+                <hr>
+                <a href="/room/{{this._id}}">more</a>
+            </section>
+        {{else}}
+            <section>
+                <header>
+                    <h3>{{this.title}}</h3>
+                    <p>({{this.opened}}–{{this.closed}})</p>
+                </header>
+                <a href="{{url this.site}}" target="_blank">{{this.site}}</a>
+
+                {{#if currentUser}}
+                    {{#if canEdit this}}
+                        <button class="fa fa-pencil edit" style="position: absolute; top:0; right: 0;">edit</button>
+                    {{/if}}
+                {{/if}}
+            </section>
+        {{/unless}}
+    {{/with}}
+</template>

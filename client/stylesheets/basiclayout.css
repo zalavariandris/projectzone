@@ -1,0 +1,63 @@
+#background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+/*#room-map{
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}*/
+
+/* place for logo*/
+#header{
+    position: fixed;
+    top: 100px;
+}
+
+/*place for user controls*/
+#controls{
+    position: fixed;
+    top: 0;
+    right: 10px;
+}
+
+/*place for selected Room details*/
+#details{
+    position: absolute;
+    right: 0;
+    top: 7em;
+    text-align: right;
+}
+
+/* place for controlling timerange*/
+#footer{
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 1em 1em;
+    margin-left: 46px;
+    box-sizing: border-box;
+}
+
+/* modules */
+.overlay{
+    position: fixed;
+    z-index: 1000;
+    left:0;
+    width: 100%;
+    top:0;
+    height:100%;
+    background-color: hsla(180,100%,100%,0.6);
+}
+
+.cover{
+    width: 100%;
+    height: 100%;
+}

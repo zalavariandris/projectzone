@@ -1,0 +1,12 @@
+<template name="signup">
+    <form>
+        <input type="email" name="email" placeholder="email" value="{{email}}"><br>
+        <input type="password" name="password" placeholder="password"><br>
+        <input type="text" name="betaToken" placeholder="Beta Token" value="{{betaToken}}"><br>
+        <button type="submit">signup</button>
+    </form>
+    <p>
+        Already have an account?
+        <a href="{{pathFor 'login'}}">Log In</a>
+    </p>
+</template>

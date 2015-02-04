@@ -1,0 +1,19 @@
+<template name="roomPermissions">
+    <header>
+        <h3>{{title}}</h3>
+    </header>
+    <section>
+        <header>
+            owner: {{owner}}
+        </header>
+        <form id="transfereOwnership">
+            {{>inputAutocomplete name="email" settings=auto placeholder="email"}}
+            <button type="submit">transfere ownership</button>
+        </form>
+    </section>
+</template>
+
+
+<template name="userPill">
+    <span>{{email}}</span>
+</template>

@@ -1,0 +1,27 @@
+<template name="login_page">
+    <div class="fade-in" style="position: fixed; top: 100px;">
+        {{>logo}}
+    </div>
+
+    <aside>
+        <div class="panel">
+            {{>room}}
+        </div>
+    </aside>
+
+    <div id="controls" style="position: fixed; top: 0; right: 10px;">
+        {{#if currentUser}}
+            {{username}}
+        {{else}}
+            <a href="/login">login</a>
+        {{/if}}
+    </div>
+
+    <div class="overlay fade-in">
+        <a href="/map" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;">
+        </a>
+        <div style="text-align: center; position: absolute; top: 50%; left: 50%; background-color: white; padding: 1em; transform: translate(-50%, -50%);">
+            {{>login}}
+        </div>
+    </div>
+</template>
