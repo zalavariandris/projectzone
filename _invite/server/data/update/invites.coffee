@@ -1,5 +1,10 @@
 Meteor.methods(
   sendInvite: (invitee,url) ->
+
+    unless Roles.userIsInRole(this.userId, "admin")
+      throw new Meteor.Error "no permission", "you have no permission to accept invites"
+      return false
+                
     check(invitee,{id: String, email: String})
     check(url,String)
 
@@ -20,6 +25,6 @@ Meteor.methods(
           from: "Projectzone <projectzone@gmail.com>"
           subject: "Welcome to Projectzone"
           html: "You've been invited to the Projectzone beta. To get started, click the link below to create your account.<br>
-          <a href='#{url+token}'>#{url}/#{token}</a>"
+          <a href='#{url}/#{token}'>#{url}/#{token}</a>"
     )
 )

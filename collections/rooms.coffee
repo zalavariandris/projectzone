@@ -10,10 +10,11 @@ Rooms.allow
     insert: Meteor.user
 
     update: (userId, doc)->
-        OwnsDocument = ownsDocument(userId, doc)
-        IsAdmin = Roles.userIsInRole(userId, 'admin')
-        console.log "IsAdmin: #{IsAdmin}, OwnsDocument: #{OwnsDocument}"
-        return IsAdmin or OwnsDocument
+        Permissions.canEdit(doc)
+        # OwnsDocument = ownsDocument(userId, doc)
+        # IsAdmin = Roles.userIsInRole(userId, 'admin')
+        # console.log "IsAdmin: #{IsAdmin}, OwnsDocument: #{OwnsDocument}"
+        # return IsAdmin or OwnsDocument
 
     remove: ()->
         return false

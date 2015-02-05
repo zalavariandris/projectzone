@@ -19,15 +19,3 @@ Template.registerHelper 'username', (user)->
     user.username or user.emails[0].address or null
 
 
-Permissions = 
-    _isAdmin: ->
-        Roles.userIsInRole Meteor.userId(), 'admin'
-
-    _isOwnerOf: (doc)->
-        doc.owner is Meteor.userId()
-
-    canEdit: (room)->
-        Permissions._isAdmin() or Permissions._isOwnerOf(room)
-
-Template.registerHelper 'canEdit', (room)->
-    Permissions.canEdit(room)

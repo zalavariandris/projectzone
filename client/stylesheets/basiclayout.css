@@ -56,6 +56,19 @@
     height:100%;
     background-color: hsla(180,100%,100%,0.6);
 }
+.overlay>div{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    background-color: white;
+    padding: 1em;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    overflow-y: overlay;
+}
 
 .cover{
     width: 100%;

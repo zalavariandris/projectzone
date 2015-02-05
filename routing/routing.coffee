@@ -1,31 +1,36 @@
+Iron.Router.hooks.hideOverlay = ->
+    Session.set 'showOverlay', false
+    @next()
+
+Iron.Router.hooks.showOverlay = ->
+    Session.set 'showOverlay', true
+    @next()
+
+Router.onBeforeAction 'hideOverlay',
+    only: ['map']
+    
+Router.onBeforeAction 'showOverlay',
+    except: ['map']
+
 Router.route "index",
     path: "/"
+    layoutTemplate: 'layoutOverlay'
+    template: "blog"
     waitOn: ->
         Meteor.subscribe 'rooms', {'deleted': $exists: false}
 
-    action: ->
-        @layout "layout"
-        @render "blog_page"
-
-Router.route "/map",
+Router.route 'map',
+    path: '/map'
+    layoutTemplate: 'layoutOverlay'
+    template: ''
+    yieldRegions:
+        'logo': to: 'header'
     waitOn: ->
         Meteor.subscribe 'rooms', {'deleted': $exists: false}
         Meteor.subscribe '/invites'
-        
-    action: ()->
-        @layout "layout"
-        @render "map_page"
 
-# Router.route 'map',
-#     path: '/map'
-#     layoutTemplate: 'layoutOverlay'
-#     template: 'map'
-#     onBeforeAction: ->
-#         Session.set 'currentRoute', 'map'
-#         @next()
+    onBeforeAction: ->
+        Session.set 'currentRoute', 'map'
+        @next()
 
-# Router.route "/login",
-#     action: ()->
-#         @layout "layout"
-#         @render "login_page"
 

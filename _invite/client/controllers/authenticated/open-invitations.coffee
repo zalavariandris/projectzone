@@ -19,6 +19,6 @@ Template.openInvitations.events
     if confirmInvite
       Meteor.call 'sendInvite', invitee, url, (error)->
         if error
-          console.log error
+          alert "error: ", error.reason
         else
           alert "Invite sent to #{invitee.email}!"

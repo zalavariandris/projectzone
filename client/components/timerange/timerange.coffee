@@ -1,3 +1,6 @@
+Meteor.startup ->
+    Session.setDefault 'timeRange', {begin: 1989, end: 2015}
+
 Template.timerange.rendered = ()->
     timeRange = Session.get 'timeRange'
 
@@ -5,8 +8,8 @@ Template.timerange.rendered = ()->
         animate: false
         range:
             min: 1989
-            max: 2014
-        start: [1989, 2014]
+            max: 2015
+        start: [1989, 2015]
         connect: true
         step: 1
         margin: 1

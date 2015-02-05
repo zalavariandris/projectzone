@@ -8,12 +8,10 @@ Meteor.methods
 
     OwnsDocument = room.owner is this.userId
     IsAdmin = Roles.userIsInRole(this.userId, 'admin')
-    console.log "owner: ", OwnsDocument, "admin: ", IsAdmin
 
     unless OwnsDocument or IsAdmin
       throw new Meteor.Error "no permission", "you don't own this document"
     else
-      console.log Meteor.users.findOne(toUser._id)
       Rooms.update room._id, $set:
         owner: toUser._id
       ,(error)->
@@ -21,18 +19,32 @@ Meteor.methods
           console.log error.reason
 
   'shareWith': (room, withUser)->
-    check(withUser, _id: String)
-
-    room if typeof room is 'string'
+    room = if typeof room is 'string'
       Rooms.findOne(room)
     else if room._id?
-      Rooms.findOne(room._i d)
+      Rooms.findOne(room._id)
 
     OwnsDocument = room.owner is this.userId
+    IsAdmin = Roles.userIsInRole(this.userId, 'admin')
 
-    if OwnsDocument
+    unless OwnsDocument or IsAdmin
+      throw new Meteor.Error "no permission", "you don't own this document"
+    else
       if room.canEdit?
-        Rooms.update room._id, $push: 'canEdit': room._id
+        Rooms.update room._id, $push: 'canEdit': withUser._id
       else
-        Rooms.update room._id, $set: 'canEdit': [room._id]
+        Rooms.update room._id, $set: 'canEdit': [withUser._id]
 
+  'revokeShare': (room, fromUser)->
+    room = if typeof room is 'string'
+      Rooms.findOne(room)
+    else if room._id?
+      Rooms.findOne(room._id)
+
+    OwnsDocument = room.owner is this.userId
+    IsAdmin = Roles.userIsInRole(this.userId, 'admin')
+
+    unless OwnsDocument or IsAdmin
+      throw new Meteor.Error "no permission", "you don't own this document"
+    else
+      Rooms.update room._id, $pull: 'canEdit': fromUser._id

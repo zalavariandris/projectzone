@@ -7,7 +7,12 @@ Template.map.helpers
             {$or: [{closed: $not: $type: 1}, {closed: $gte: timeRange.begin}]},
         ]
         condition['deleted'] = {$exists: false}
-        return Rooms.find(condition).fetch()
+
+        rooms = Rooms.find(condition).fetch()
+        return _.map rooms, (room)->
+            isSelected = room._id is Session.get('selection')
+            room.draggable = isSelected
+            return room
 
     isSelected: ->
         item = Template.currentData()
@@ -23,17 +28,35 @@ Template.map.helpers
         else
             return "cover"
 
-Template.map.events
-    ###
-    # create rooms by dblclick on the map
-    ###
-    # 'dblclick': (event, template)->
-    #     if Meteor.user()?
-    #         newId = Rooms.insert
-    #             latlng: {lat: event.latlng.lat, lng: event.latlng.lng}
-    #             title: "-new space-"
-    #         Session.set 'selection', newId
 
+Template.map.events
+    'click .leaflet-marker-icon': (event, template)->
+        console.log 'click icon'
+        switch Session.get('tool')
+            when 'marker'
+                event.stopPropagation()
+            else
+                event.stopPropagation()
+                room = Blaze.getData(event.target)
+                Session.set 'selection', room._id
+
+    'click .map-container': (event, template)->
+        event.stopPropagation()
+
+        console.log "click container", event.latlng
+
+        switch Session.get('tool')
+            when 'marker'
+                newId = Rooms.insert
+                    latlng: {lat: event.latlng.lat, lng: event.latlng.lng}
+                    title: "-new space-"
+
+                Session.set 'tool', null
+                Session.set 'selection', newId
+            else
+                Session.set('selection', null)
+
+        
     'dragend': (event, template)->
         # this is a hack. since the leaflet marker's div element 
         # is not rendered by meteor, it has no associatd data, 
@@ -44,21 +67,3 @@ Template.map.events
         Rooms.update room._id, $set:
             latlng: lat: event.latlng.lat, lng: event.latlng.lng
 
-    'click':(event, template)->
-        # if the event.target has a ".marker" parent 
-        # then the user clicked on a marker, so select the correspondent room
-        # otherwise, the user was clicked on the map, so clear the selection
-        switch Session.get('tool')
-            when 'marker'
-                newId = Rooms.insert
-                    latlng: {lat: event.latlng.lat, lng: event.latlng.lng}
-                    title: "-new space-"
-
-                Session.set 'tool', null
-                Session.set 'selection', newId
-            else
-                if $(event.target).closest('.marker').length>0
-                    room = Blaze.getData(event.target)
-                    Session.set 'selection', room._id
-                else
-                    Session.set 'selection', null
