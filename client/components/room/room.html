@@ -1,21 +1,6 @@
 <template name="room">
     {{#with selectedItem}}
-        {{#unless disabled}}
-            <section>
-                {{#autoForm collection="Rooms" doc=this id="insertRoomForm" type="update"}}
-                    <h3>{{>afQuickField name='title' label=false placeholder="Name"}}</h3>
-                    {{>afQuickField name='opened' label=false placeholder="opened"}}
-                    {{>afQuickField name='closed' label=false placeholder="closed"}}
-                    {{>afQuickField name='site' label=false placeholder="website"}}
-                    <button type="submit" style="float: left">Update</button>
-                    <button class="cancel">Cancel</button>
-                {{/autoForm}}
-                <hr>
-                <button class="remove danger">Delete</button>
-                <hr>
-                <a href="/room/{{this._id}}">more</a>
-            </section>
-        {{else}}
+        {{#if disabled}}
             <section>
                 <header>
                     <h3>{{this.title}}</h3>
@@ -25,10 +10,48 @@
 
                 {{#if currentUser}}
                     {{#if canEdit this}}
-                        <button class="fa fa-pencil edit" style="position: absolute; top:0; right: 0;">edit</button>
+                        <button class="fa fa-pencil edit" style="position: absolute; top:0; right: 0;">{{localize 'edit'}}</button>
                     {{/if}}
                 {{/if}}
             </section>
-        {{/unless}}
+        {{else}}
+            <section>
+                <form>
+                    <div>
+                        <label>{{localize 'name'}}:</label>
+                        <input type="text" name="title" value={{title}}>
+                    </div>
+                    <div>
+                        <label>{{localize 'type'}}</label>
+                        <select name="type">
+                            <option selected={{isSelected}} disabled value=" ">{{localize 'select'}}</option>
+                            {{#each options}}
+                                <option selected={{isSelected}} value={{this}}>{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div>
+                        <label>{{localize 'start'}} </label>
+                        <input type="number" name="opened" value={{opened}}>
+                    </div>
+                    <div>
+                        <label>{{localize 'closed'}} </label>
+                        <input type="number" name="closed" value={{closed}}>
+                    </div>
+                    <div>
+                        <label>{{localize 'website'}} </label>
+                        <input type="url" name="site" value={{site}}>
+                    </div>
+
+                    <br>
+                    <button type="submit" style="float: left;">{{localize 'update'}}</button>
+                </form>
+                <button class="cancel">{{localize 'cancel'}}</button>
+                <hr>
+                <button class="remove danger">{{localize 'remove'}}</button>
+                <hr>
+                <a href="/room/{{this._id}}">{{localize 'more'}}</a>
+            </section>
+        {{/if}}
     {{/with}}
 </template>

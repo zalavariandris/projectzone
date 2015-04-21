@@ -1,0 +1,52 @@
+<template name="roomPermissions">
+    <header>
+        <h3>{{title}}</h3>
+    </header>
+    <section>
+        <header>
+            <h4>gazdi<!-- owner --></h4>
+            <p>{{owner}}</p>
+        </header>
+        {{#if isOwner}}
+            {{>swapOwner}}
+        {{/if}}
+    </section>
+    {{#if isOwner}}
+        <header>
+            <h4>szerkesztők<!-- can edit --></h4>
+        </header>
+        <ul>
+            <li>
+                {{>shareEdit}}
+            </li>
+            {{#each editors}}
+            <li>{{username this}}<button class="revoke">visszavon<!-- revoke --></button></li>
+            {{/each}}
+        </ul>
+    {{/if}}
+    {{#if canEdit}}
+        {{>changes}}
+    {{/if}}
+</template>
+
+<template name="shareEdit">
+    <form id="share">
+        <input name="email" type="email"
+               placeholder="email" autocomplete="off" splellcheck="off"
+               data-source="emails">
+        <button type="submit">szerkesztheti<!-- share --></button>
+    </form>
+</template>
+
+<template name="swapOwner">
+    <form id="transfereOwnership">
+            <input name="email" type="email"
+                   placeholder="email" autocomplete="off" splellcheck="off"
+                   data-source="emails">
+            <button type="submit">átruházom<!-- transfere ownership --></button>
+        </form>
+</template>
+
+<template name="userPill">
+    <span>{{email}}</span>
+</template>

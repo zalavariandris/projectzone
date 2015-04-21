@@ -2,13 +2,19 @@
     {{#if currentUser}}
         <a href="/login">{{username}}</a>
         {{#if isAdmin}}
-            <a href="/invites">invites<span style="background: crimson; color: white; border-radius: 100%; font-size: 0.8em; display: inline-block; min-width: 1.2em; height: 1.2em; text-align: center;">{{newRequestsCount}}</span></a>
+            <a href="/invites">{{localize 'invites'}}<span style="background: crimson; color: white; border-radius: 100%; font-size: 0.8em; display: inline-block; min-width: 1.2em; height: 1.2em; text-align: center;">{{newRequestsCount}}</span></a>
         {{/if}}
         {{#if isWebmaster}}
             <a href="/admins">admins</a>
         {{/if}}
     {{else}}
-        <a href="/login">login</a>
-        <a href="/request">request invitation</a>
+        <a href="/login">{{localize 'login'}}</a>
+        <a href="/request">{{localize 'request_invite'}}</a>
     {{/if}}
+
+    <select name="language">
+        {{#each languages}}
+            <option selected={{isLanguageSelected}} value={{this}}>{{this}}</option>
+        {{/each}}
+    </select>
 </template>

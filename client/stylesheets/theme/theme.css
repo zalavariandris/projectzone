@@ -7,7 +7,7 @@ and not anz stle related to layout or position
 */
 
 /*reset*/
-input, button{
+input, button, select{
     -webkit-appearance: none;
     -moz-appearance: none;
     -o-appearance: none;
@@ -16,11 +16,12 @@ input, button{
     font-family: inherit;
     outline: none;
     border: none;
+    border-radius: 0;
 
     cursor: pointer;
 }
 
-input, button{
+input, button, select{
     background: ghostwhite;
 }
 
@@ -44,7 +45,7 @@ button.danger{
     color: white;
 }
 
-button.active{
+button.active, button:hover{
     background-color: hsla(0,0%,50%,0.3);
 }
 
@@ -52,3 +53,15 @@ button.active{
     
 }
 
+
+form.large *{
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-bottom: 2px;
+    text-align: center;
+}
+
+/*h1, h2, h3, h4, h5, h6{
+    margin-top: 0;
+}*/

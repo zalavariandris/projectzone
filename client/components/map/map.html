@@ -1,10 +1,11 @@
 <template name="map">
-    {{!-- {{>leaflet items=rooms class=klass disabled=isDisabled}} --}}
-    {{#leaflet items=rooms class=klass disabled=isDisabled}}
+    {{#leaflet items=rooms class=klass maxBounds="[[47.34, 18.81], [47.65, 19.35]]" minZoom=11}}
         <div class="marker">
             <div class="marker-pin"></div>
             <img class="flag" src="/kiszaszlo-terkep.png"/>
-            <span class="marker-label {{#if isSelected}}selected{{/if}}">{{title}}</span>
+            <span class="marker-label {{#if isSelected}}selected{{/if}} {{labelType}}">
+                {{title}}
+            </span>
         </div>
     {{/leaflet}}
 </template>

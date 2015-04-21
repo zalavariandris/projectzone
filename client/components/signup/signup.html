@@ -1,0 +1,17 @@
+<template name="signup">
+    <section>
+        <header>
+            <h2>Signup</h2>
+        </header>
+        <form class="large">
+            <input type="email" name="email" placeholder="email" value="{{email}}">
+            <input type="password" name="password" placeholder="password">
+            <input type="hidden" name="betaToken" placeholder="Beta Token" value="{{betaToken}}">
+            <button type="submit">signup</button>
+        </form>
+    </section>
+    <hr>
+    <section>
+        <p>Already have an account? <a href="{{pathFor 'login'}}">Log In</a></p>
+    </section>
+</template>

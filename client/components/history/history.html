@@ -1,0 +1,41 @@
+
+
+<template name="history">
+    <h5>history</h5>
+    <ul>
+    {{#each updatesHistory}}
+        <li>
+            <section>
+                {{title}}<br>
+                ({{opened}}–{{closed}})<br>
+                {{site}}
+                <small>[{{latlng.lat}} {{latlng.lng}}]</small>
+            </section>
+            <section>
+                <i>{{username updatedBy}}, {{fromNow date}}</i>
+            </section>
+        </li>
+    {{/each}}
+    </ul>
+</template>
+
+<template name="changes">   
+    <h5>frissítések</h5>
+    <table style="font-size: xx-small;">
+        {{#each changes}}
+        <tr style="vertical-align: top;">
+            <td>
+                <ul>
+                {{#each fields}}
+                    <li>{{name}}: {{value}}</li>
+                {{/each}}
+                </ul>
+            </td>
+            <td style="color: grey; text-align: right;">
+                {{fromNow date}}<br>
+                <i><!-- by  -->{{username updatedBy}}</i>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</template>

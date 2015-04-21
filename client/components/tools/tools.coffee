@@ -10,3 +10,7 @@ Template.tools.helpers
     'markerActive': (event, template)->
         Session.get('tool') is "marker"
 
+Template.tools.events
+    'keydown': (event, template)->
+        if event.keyCode is 27 then Session.set 'tool', null
+

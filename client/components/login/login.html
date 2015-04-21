@@ -1,28 +1,17 @@
-<template name="miniLogin">
-    {{#if currentUser}}
-        <small>{{currentUser.username}}</small>
-        <button class="logout">logout</button>
-    {{else}}
-        <form id="login">
-            <input type="email" name="email" placeholder="email"><br>
-            <input type="password" name="password" placeholder="password"><br>
-            <button type="submit">login</button>
-        </form>
-    {{/if}}
-</template>
+
 
 <template name="login">
     {{#unless currentUser}}
-        <h2>login</h2>
-        <form id="login">
-            email: <input name="email" type="email" placeholder="email"><br>
-            password: <input name="password" type="password" placeholder="password"><br>
-            <button type="submit">login</button>
+        <h2>{{localize 'login'}}</h2>
+        <form id="login" class="large">
+            <input name="email" type="email" placeholder="email">
+            <input name="password" type="password" placeholder="password">
+            <button type="submit">{{localize 'login'}}</button>
         </form>
     {{else}}
         <section>
-            you are logged in with: {{username}}
-            <button class="logout">logout</button>
+            {{username}}
+            <button class="logout">{{localize 'logout'}}</button>
         </section>
     {{/unless}}
 </template>

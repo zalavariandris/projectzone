@@ -9,9 +9,11 @@ Template.map.helpers
         condition['deleted'] = {$exists: false}
 
         rooms = Rooms.find(condition).fetch()
+
         return _.map rooms, (room)->
             isSelected = room._id is Session.get('selection')
-            room.draggable = isSelected
+            CanEdit = Permissions.canEdit(room)
+            room.draggable = isSelected and CanEdit
             return room
 
     isSelected: ->
@@ -27,6 +29,9 @@ Template.map.helpers
             return "cover crosshair"
         else
             return "cover"
+
+    labelType: ()->
+        if @type? is false or @type is "project" then "" else "other"
 
 
 Template.map.events

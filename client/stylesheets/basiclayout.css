@@ -33,6 +33,7 @@
     right: 0;
     top: 7em;
     text-align: right;
+    max-width: 16em;
 }
 
 /* place for controlling timerange*/
@@ -56,18 +57,31 @@
     height:100%;
     background-color: hsla(180,100%,100%,0.6);
 }
+
 .overlay>div{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
     background-color: white;
     padding: 1em;
+  
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    max-height: 100%;
+    box-sizing: border-box;
+    /*overflow-y: overlay;*/
+    
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+.overlay.withIframe>div{
+    top: 0;
+    bottom: 0;
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
     -o-transform: translateX(-50%);
     transform: translateX(-50%);
-    overflow-y: overlay;
 }
 
 .cover{
