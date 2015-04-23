@@ -11,6 +11,9 @@ Meteor.publish 'rooms', (selector)->
     # return Rooms.find latlng: $within: $box: [ [47.42669366522116, 18.921890258789062] , [47.573283112482144, 19.188308715820312] ]
     return Rooms.find selector, {fields: changes: 0, history: 0}
 
+Meteor.publish 'images', (selector)->
+  Images.find(selector)
+
 Meteor.publish 'history', (selector)->
     return Rooms.find selector, {fields: changes: 1, history: 1}
 

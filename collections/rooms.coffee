@@ -20,6 +20,10 @@ Rooms.allow
         Roles.userIsInRole userId, 'webmaster'
 
 @RoomSchema = new SimpleSchema
+    'coverImage':
+        type: String
+        optional: true
+        
     'title':
         type: String
         label: "Title"

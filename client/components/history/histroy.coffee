@@ -1,3 +1,9 @@
+Template.changes.onCreated ->
+  self = this
+  self.autorun ->
+    self.subscribe 'history', Template.currentData()._id 
+
+
 Template.changes.helpers
     changes: ->
         @changes?.slice().reverse() or null

@@ -1,0 +1,67 @@
+<template name="roomShort">
+  ROOM
+  {{#with selectedItem}}
+    {{#if disabled}}
+      <section>
+        {{>roomShort_show}}
+      </section>
+    {{else}}
+      <section>
+        {{>roomShort_edit}}
+      </section>
+    {{/if}}
+  {{/with}}
+</template>
+
+<template name="roomShort_show">
+  <header>
+    <h3>{{this.title}}</h3>
+    <p>({{this.opened}}–{{this.closed}})</p>
+  </header>
+  <a href="{{formatUrl this.site}}" target="_blank">{{this.site}}</a>
+
+  {{#if currentUser}}
+    {{#if canEdit this}}
+      <button class="fa fa-pencil edit" style="position: absolute; top:0; right: 0;">{{localize 'edit'}}</button>
+    {{/if}}
+  {{/if}}
+
+  <a href={{pathFor 'room'}}>MORE</a>
+</template>
+
+<template name="roomShort_edit">
+  <form>
+    <div>
+      <label>{{localize 'name'}}:</label>
+      <input type="text" name="title" value={{title}}>
+    </div>
+    <div>
+      <label>{{localize 'type'}}</label>
+      <select name="type">
+        <option selected={{isSelected}} disabled value=" ">{{localize 'select'}}</option>
+        {{#each options}}
+          <option selected={{isSelected}} value={{this}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div>
+      <label>{{localize 'start'}} </label>
+      <input type="number" name="opened" value={{opened}}>
+    </div>
+    <div>
+      <label>{{localize 'closed'}} </label>
+      <input type="number" name="closed" value={{closed}}>
+    </div>
+    <div>
+      <label>{{localize 'website'}} </label>
+      <input type="url" name="site" value={{site}}>
+    </div>
+    <br>
+    <button type="submit" style="float: left;">{{localize 'update'}}</button>
+  </form>
+  <button class="cancel">{{localize 'cancel'}}</button>
+  <hr>
+  <button class="remove danger">{{localize 'remove'}}</button>
+  <hr>
+  <a href="/room/{{this._id}}">{{localize 'more'}}</a>
+</template>

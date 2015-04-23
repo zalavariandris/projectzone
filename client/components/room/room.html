@@ -1,0 +1,84 @@
+<template name="room">
+  <style>
+    h1>p, h2>p, h3>p, h4>p, h5>p{
+      font-size: 50%;
+      margin: 0;
+      color: grey;
+      font-style: italic;
+    }
+  </style>
+
+  <div>
+    <header>
+      {{#asset}}
+        <img src={{url}} style="height: 6em;">
+      {{/asset}}
+      <h3>
+        {{title}}
+        <p>({{opened}}–{{closed}})</p>
+        <p><a href={{site}}>{{site}}</a></p>
+      </h3>
+    </header>
+    <section>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </section>
+  </div>
+  
+  <div>
+    <section>
+      <header>
+        <h4>{{localize "owner"}}</h4>
+        {{username owner}}
+        {{#if isOwner}}
+          {{>swapOwner}}
+        {{/if}}
+      </header>
+      <ul>
+        {{#each emails}}
+        <li> {{this}}</li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <section>
+        <header>
+            <h4>szerkesztők<!-- can edit --></h4>
+        </header>
+        <ul>
+            <li>
+                {{>shareEdit}}
+            </li>
+            {{#each editors}}
+            <li>{{username this}}<button class="revoke">visszavon<!-- revoke --></button></li>
+            {{/each}}
+        </ul>
+    </section>
+
+    <section>
+      {{>changes}}
+    </section>
+  </div>
+</template>
+
+<template name="asset">
+  {{#if uploaded}}
+    {{>Template.contentBlock}}
+    {{#unless DISABLED}}
+      <button class="delete">delete</button>
+    {{/unless}}
+  {{else}}
+    {{#unless DISABLED}}
+      {{#if progress}}
+        <progress value="{{progress}}" max="100"></progress>
+      {{else}}
+        <input type="file">
+      {{/if}}
+    {{/unless}}
+  {{/if}}
+</template>
+

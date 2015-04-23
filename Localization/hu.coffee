@@ -27,8 +27,8 @@ Languages.hu = {
 
     invites: "meghívók"
     admins: "admins"
-
-    owner: "owner"
+    transfer: "átruházom"
+    owner: "gazdi"
     edit: "szerkeszt"
     can_edit: "szerkesztők"
 }

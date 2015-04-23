@@ -42,7 +42,8 @@ Router.route 'room',
     Session.set 'currentRoute', 'room'
     @next()
 
-  waitOn: -> Meteor.subscribe('rooms', @params._id),
+  waitOn: -> 
+    [Meteor.subscribe('rooms', @params._id)]
 
   data: ->
     Rooms.findOne @params._id
