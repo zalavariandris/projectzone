@@ -1,3 +1,5 @@
+
+
 Router.route 'register',
   path: "/request"
   layoutTemplate: 'layoutOverlay'
@@ -31,3 +33,16 @@ Router.route 'login',
   onBeforeAction: ->
     Session.set 'currentRoute', 'login'
     @next()
+
+Router.route 'room',
+  path: '/room/:_id'
+  layoutTemplate: 'layoutOverlay'
+  template: 'room'
+  onBeforeAction: ->
+    Session.set 'currentRoute', 'room'
+    @next()
+
+  waitOn: -> Meteor.subscribe('rooms', @params._id),
+
+  data: ->
+    Rooms.findOne @params._id

@@ -25,3 +25,5 @@ sergeyt:typeahead
 momentjs:moment
 bab:ui
 bab:leaflet
+cfs:standard-packages
+cfs:gridfs

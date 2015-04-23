@@ -31,7 +31,8 @@ Router.onBeforeAction checkUserLoggedIn, except: [
   'signup/:token',
   'login',
   'recover-password',
-  'reset-password'
+  'reset-password',
+  'room'
 ]
 
 Router.onBeforeAction userAuthenticatedBetaTester, only: [
@@ -43,7 +44,8 @@ Router.onBeforeAction userAuthenticatedBetaTester, only: [
   'login',
   'recover-password',
   'reset-password',
-  'invites'
+  'invites',
+  'room'
 ]
 
 Router.onBeforeAction userAuthenticatedAdmin, only: [
@@ -54,5 +56,6 @@ Router.onBeforeAction userAuthenticatedAdmin, only: [
   'signup/:token',
   'login',
   'recover-password',
-  'reset-password'
+  'reset-password',
+  'room'
 ]

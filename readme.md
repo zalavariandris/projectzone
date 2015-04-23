@@ -1,6 +1,11 @@
-todo
-====
+packages used
+=============
+iron:router
+aldeed:collection2
+cfs:standard-packages
+cfs:grid-fs
+alanning:roles
+linto:fontawesome
+momentjs:moment
 
-- kell egy jó szöveg a request invitation-be
-- Csak akor tudd arrébrakni, a zászlókat, ha kivan jelölve
-✔️ Ha elküldte a requestet, menjen vissza a map-re!
+

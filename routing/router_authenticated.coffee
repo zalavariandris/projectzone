@@ -29,18 +29,18 @@ Router.route 'admins',
         Session.set 'currentRoute', 'admins'
         @next()
 
-Router.route 'roomPermissions',
-    path: '/room/:_id'
-    layoutTemplate: 'layoutOverlay'
-    template: 'roomPermissions'
+# Router.route 'roomPermissions',
+#     path: '/room/:_id'
+#     layoutTemplate: 'layoutOverlay'
+#     template: 'roomPermissions'
 
-    waitOn: ->
-        return [
-            Meteor.subscribe('rooms', @params._id),
-            Meteor.subscribe('history', @params._id),
-            Meteor.subscribe('users', {})
-        ]
+#     waitOn: ->
+#         return [
+#             Meteor.subscribe('rooms', @params._id),
+#             Meteor.subscribe('history', @params._id),
+#             Meteor.subscribe('users', {})
+#         ]
 
-    data: ->
-        Rooms.findOne @params._id
+#     data: ->
+#         Rooms.findOne @params._id
 
