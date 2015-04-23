@@ -170,8 +170,7 @@ Rooms.allow
                     date: new Date
                     updatedBy: @userId
                 }
-
-                debugger
+                
                 for f in fields
                     change[f] = @field(f).value if @field(f).isSet and @field(f).value isnt current[f]
 
