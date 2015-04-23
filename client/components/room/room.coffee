@@ -4,6 +4,9 @@
 ###
 
 # coverImage
+
+
+
 Template.room.onCreated ->
   self = this
   
@@ -15,10 +18,6 @@ Template.room.helpers
     Images.findOne(@coverImage)?.url() or null
 
 # owner
-
-
-Template.room.onRendered ->
-  Meteor.typeahead @find('#transfereOwnership [name=email]')
 
 Template.room.onCreated ->
   self = this
@@ -68,3 +67,25 @@ Template.asset.events
         alert error.message
       else
         Images.remove this.coverImage
+
+Template.swapOwner.onRendered ->
+  Meteor.typeahead @find('#transfereOwnership [name=email]')
+
+Template.shareEdit.onRendered ->
+  Meteor.typeahead @find('#share [name=email]')
+
+Template.swapOwner.helpers
+    emails: ->
+        owner = Template.currentData().owner
+        emails = _.compact _.map Meteor.users.find('_id': $not: owner).fetch(), (user)->
+            return user?.emails?[0].address or null
+
+        return emails
+
+Template.shareEdit.helpers
+    emails: ->
+        editors = Template.currentData().canEdit or []
+        emails = _.compact _.map Meteor.users.find('_id': $nin: editors).fetch(), (user)->
+            return user?.emails?[0].address or null
+        console.log emails
+        return emails

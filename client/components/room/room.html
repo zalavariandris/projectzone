@@ -28,7 +28,7 @@
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </section>
   </div>
-  
+
   <div>
     <section>
       <header>
@@ -54,7 +54,7 @@
                 {{>shareEdit}}
             </li>
             {{#each editors}}
-            <li>{{username this}}<button class="revoke">visszavon<!-- revoke --></button></li>
+            <li>{{username this}}<button class="revoke">{{localize "revoke"}}</button></li>
             {{/each}}
         </ul>
     </section>
@@ -80,5 +80,23 @@
       {{/if}}
     {{/unless}}
   {{/if}}
+</template>
+
+<template name="shareEdit">
+    <form id="share">
+        <input name="email" type="email"
+               placeholder="email" autocomplete="off" splellcheck="off"
+               data-source="emails">
+        <button type="submit">szerkesztheti<!-- share --></button>
+    </form>
+</template>
+
+<template name="swapOwner">
+    <form id="transfereOwnership">
+        <input name="email" type="email"
+               placeholder="email" autocomplete="off" splellcheck="off"
+               data-source="emails">
+        <button type="submit">átruházom<!-- transfere ownership --></button>
+    </form>
 </template>
 

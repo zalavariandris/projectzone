@@ -29,6 +29,7 @@ Languages.hu = {
     admins: "admins"
     transfer: "átruházom"
     owner: "gazdi"
+    revoke: "visszavon"
     edit: "szerkeszt"
     can_edit: "szerkesztők"
 }
