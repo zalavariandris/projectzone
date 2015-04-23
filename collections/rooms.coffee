@@ -19,10 +19,7 @@ Rooms.allow
     remove: (userId, doc)->
         Roles.userIsInRole userId, 'webmaster'
 
-
-@Schemas = {}
-
-Schemas.Room = new SimpleSchema
+@RoomSchema = new SimpleSchema
     'title':
         type: String
         label: "Title"
@@ -85,92 +82,96 @@ Schemas.Room = new SimpleSchema
         denyInsert: true
         optional: true
 
-    history:
-        type:[Object]
-        optional: true
-        autoValue: ->
-            fields = ['title', 'opened', 'closed', 'latlng', 'site', 'deleted']
-            IsSet = _.some (@field(f).isSet for f in fields)
+    # history:
+    #     type:[Object]
+    #     optional: true
+    #     autoValue: ->
+    #         fields = ['title', 'opened', 'closed', 'latlng', 'site', 'deleted']
+    #         IsSet = _.some (@field(f).isSet for f in fields)
 
-            if IsSet
-                # get current data
-                data = if @isInsert
-                    {}
-                else
-                    _.pick Rooms.findOne(@docId), fields
+    #         if IsSet
+    #             # get current data
+    #             data = if @isInsert
+    #                 {}
+    #             else
+    #                 _.pick Rooms.findOne(@docId), fields
 
-                # push date
-                data.date = new Date
-                data.updatedBy = @userId
-                # update new fields
-                for f in fields
-                    if @field(f).isSet
-                        data[f] = @field(f).value
+    #             # push date
+    #             data.date = new Date
+    #             data.updatedBy = @userId
+    #             # update new fields
+    #             for f in fields
+    #                 if @field(f).isSet
+    #                     data[f] = @field(f).value
 
-                # update histroy
-                if @isInsert
-                    return [data]
-                else
-                    return $push: data
-            else
-                @unset()
+    #             # update histroy
+    #             if @isInsert
+    #                 return [data]
+    #             else
+    #                 return $push: data
+    #         else
+    #             @unset()
+    #     blackbox: true
 
-    'history.$.date':
-        type: Date
+    # 'history.$.date':
+    #     type: Date
 
-    'history.$.updatedBy':
-        type: String
+    # 'history.$.updatedBy':
+    #     type: String
 
-    'history.$.title':
-        type: String
-        label: "Title"
-        max: 200
+    # 'history.$.title':
+    #     type: String
+    #     label: "Title"
+    #     max: 200
 
-    'history.$.site':
-        type: String
-        label: "website"
-        max: 200
-        optional: true
+    # 'history.$.site':
+    #     type: String
+    #     label: "website"
+    #     max: 200
+    #     optional: true
 
-    'history.$.latlng':
-        type: Object
-        label: "latlng"
+    # 'history.$.latlng':
+    #     type: Object
+    #     label: "latlng"
     
-    'history.$.latlng.lat':
-        type: Number
-        decimal: true
+    # 'history.$.latlng.lat':
+    #     type: Number
+    #     decimal: true
 
-    'history.$.latlng.lng': 
-        type: Number
-        decimal: true
+    # 'history.$.latlng.lng': 
+    #     type: Number
+    #     decimal: true
 
-    'history.$.opened':
-        type: Number
-        label: "Opened"
-        optional: true
+    # 'history.$.opened':
+    #     type: Number
+    #     label: "Opened"
+    #     optional: true
 
-    'history.$.closed':
-        type: Number
-        label: "Closed"
-        optional: true
+    # 'history.$.closed':
+    #     type: Number
+    #     label: "Closed"
+    #     optional: true
 
-    'history.$.deleted':
-        type: Boolean
-        optional: true
+    # 'history.$.deleted':
+    #     type: Boolean
+    #     optional: true
 
     changes:
         type:[Object]
         optional: true
+        blackbox: true
         autoValue: ->
             fields = ['title', 'opened', 'closed', 'latlng', 'site', 'deleted']
 
             IsSet = _.some (@field(f).isSet for f in fields)
-            if IsSet
+            if @isUpdate
                 current = Rooms.findOne(@docId) or {}
                 change = {
                     date: new Date
                     updatedBy: @userId
                 }
+
+                debugger
                 for f in fields
                     change[f] = @field(f).value if @field(f).isSet and @field(f).value isnt current[f]
 
@@ -181,50 +182,51 @@ Schemas.Room = new SimpleSchema
             else
                 @unset()
 
-    'changes.$.date':
-        type: Date
 
-    'changes.$.updatedBy':
-        type: String
+    # 'changes.$.date':
+    #     type: Date
 
-    'changes.$.title':
-        type: String
-        label: "Title"
-        max: 200
-        optional: true
+    # 'changes.$.updatedBy':
+    #     type: String
 
-    'changes.$.site':
-        type: String
-        label: "website"
-        max: 200
-        optional: true
+    # 'changes.$.title':
+    #     type: String
+    #     label: "Title"
+    #     max: 200
+    #     optional: true
 
-    'changes.$.latlng':
-        type: Object
-        label: "latlng"
-        optional: true
+    # 'changes.$.site':
+    #     type: String
+    #     label: "website"
+    #     max: 200
+    #     optional: true
+
+    # 'changes.$.latlng':
+    #     type: Object
+    #     label: "latlng"
+    #     optional: true
     
-    'changes.$.latlng.lat':
-        type: Number
-        decimal: true
+    # 'changes.$.latlng.lat':
+    #     type: Number
+    #     decimal: true
 
-    'changes.$.latlng.lng': 
-        type: Number
-        decimal: true
+    # 'changes.$.latlng.lng': 
+    #     type: Number
+    #     decimal: true
 
-    'changes.$.opened':
-        type: Number
-        label: "Opened"
-        optional: true
+    # 'changes.$.opened':
+    #     type: Number
+    #     label: "Opened"
+    #     optional: true
 
-    'changes.$.closed':
-        type: Number
-        label: "Closed"
-        optional: true
+    # 'changes.$.closed':
+    #     type: Number
+    #     label: "Closed"
+    #     optional: true
 
-    'changes.$.deleted':
-        type: Boolean
-        optional: true
+    # 'changes.$.deleted':
+    #     type: Boolean
+    #     optional: true
 
     owner:
         type: String
@@ -237,4 +239,4 @@ Schemas.Room = new SimpleSchema
         optional: true
 
 
-Rooms.attachSchema Schemas.Room
+Rooms.attachSchema RoomSchema

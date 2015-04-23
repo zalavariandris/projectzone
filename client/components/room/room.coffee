@@ -20,7 +20,7 @@ Template.room.helpers
         Roles.userIsInRole Meteor.user(), 'admin'
 
     options: ()->
-        Schemas.Room.schema().type.allowedValues
+        RoomSchema.schema().type.allowedValues
 
     isSelected: ()->
         option = if _.isString(this) then this.valueOf() else null
