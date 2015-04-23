@@ -1,0 +1,16 @@
+<template name="room_owner">
+  <header>
+    <h4>{{localize "owner"}}</h4>
+    {{owner}}
+    {{#if isOwner}}
+      <form id="transferOwnership">
+          {{> inputAutocomplete settings=settings name="email" placeholder="can edit..."}}
+          <button type="submit">átruházom<!-- transfere ownership --></button>
+      </form>
+    {{/if}}
+  </header>
+</template>
+
+<template name="userPill">
+  {{this.username}} <small>{{email}}</small>
+</template>

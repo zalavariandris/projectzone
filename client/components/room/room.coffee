@@ -37,6 +37,14 @@ Template.room.helpers
   editors: ->
       Meteor.users.find _id: $in: (this.canEdit or [])
 
+
+Template.room.events
+  'click .revoke': (event, template)->
+    room = Template.currentData()
+    fromUser = this
+    if confirm "Visszavonod?"
+      Meteor.call "revokeShare", room, fromUser, (error)->
+        if error then alert error.message
 ###
 # ROOM
 ###
@@ -68,24 +76,47 @@ Template.asset.events
       else
         Images.remove this.coverImage
 
+# Swap Owner
 Template.swapOwner.onRendered ->
-  Meteor.typeahead @find('#transfereOwnership [name=email]')
-
-Template.shareEdit.onRendered ->
-  Meteor.typeahead @find('#share [name=email]')
+  Meteor.typeahead @find('#transferOwnership [name=email]')
 
 Template.swapOwner.helpers
-    emails: ->
-        owner = Template.currentData().owner
-        emails = _.compact _.map Meteor.users.find('_id': $not: owner).fetch(), (user)->
-            return user?.emails?[0].address or null
+  emails: ->
+    owner = Template.currentData().owner
+    emails = _.compact _.map Meteor.users.find('_id': $not: owner).fetch(), (user)->
+        return user?.emails?[0].address or null
+    return emails
 
-        return emails
+Template.swapOwner.events
+  'submit #transferOwnership': (event, template)->
+    event.preventDefault()
+    room = this
+    toUser = Meteor.users.findOne({'emails.address': event.target.email.value})
+    
+    if confirm "Átruházod rá: #{event.target.email.value}?"
+      Meteor.call 'transferOwnership', room, toUser, (error)->
+        if error then alert error.message
+        else event.target.reset()
 
-Template.shareEdit.helpers
-    emails: ->
-        editors = Template.currentData().canEdit or []
-        emails = _.compact _.map Meteor.users.find('_id': $nin: editors).fetch(), (user)->
-            return user?.emails?[0].address or null
-        console.log emails
-        return emails
+# Share Edit
+# Template.shareEdit.onRendered ->
+#   Meteor.typeahead @find('#share [name=email]')
+
+# Template.shareEdit.helpers
+#   emails: ->
+#     editors = Template.currentData().canEdit or []
+#     emails = _.compact _.map Meteor.users.find('_id': $nin: editors).fetch(), (user)->
+#         return user?.emails?[0].address or null
+
+#     return emails
+
+# Template.shareEdit.events
+#   'submit #share': (event, template)->
+#     event.preventDefault()
+#     room = Template.currentData()
+#     withUser = Meteor.users.findOne 'emails.address': event.target.email.value
+    
+#     if confirm "Megosztod vele: #{withUser.emails[0].address}?"
+#       Meteor.call 'shareWith', room, withUser, (error)->
+#         if error then alert error.message
+#         else event.target.reset()

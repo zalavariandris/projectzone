@@ -7,4 +7,6 @@ Languages.en = {
 
     name: 'name'
     select: "please select"
+
+    can_edit: "can edit"
 }

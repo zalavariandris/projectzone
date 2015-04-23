@@ -1,5 +1,5 @@
 Meteor.methods
-  transfereOwnership: (room, toUser) ->
+  transferOwnership: (room, toUser) ->
     unless Meteor.users.findOne(toUser)? then alert "cant find user"
     room = if typeof room is 'string'
       Rooms.findOne(room)
@@ -12,11 +12,19 @@ Meteor.methods
     unless OwnsDocument or IsAdmin
       throw new Meteor.Error "no permission", "you don't own this document"
     else
+      if room.canEdit?
+        Rooms.update room._id, $push: 'canEdit': room.owner
+      else
+        Rooms.update room._id, $set: 'canEdit': [room.owner]
+
+      Rooms.update room._id, $pull: 'canEdit': toUser._id
+
       Rooms.update room._id, $set:
         owner: toUser._id
       ,(error)->
         if error
           console.log error.reason
+
 
   'shareWith': (room, withUser)->
     room = if typeof room is 'string'

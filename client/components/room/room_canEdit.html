@@ -1,0 +1,16 @@
+<template name="room_canEdit">
+  <header>
+      <h4>{{localize "can_edit"}}<!-- can edit --></h4>
+  </header>
+  <ul>
+      <li>
+        <form id="share">
+            {{> inputAutocomplete settings=settings name="email" placeholder="can edit..."}}
+            <button type="submit">szerkesztheti<!-- share --></button>
+        </form>
+      </li>
+      {{#each editors}}
+      <li>{{username this}}<button class="revoke">{{localize "revoke"}}</button></li>
+      {{/each}}
+  </ul>
+</template>

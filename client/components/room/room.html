@@ -31,32 +31,11 @@
 
   <div>
     <section>
-      <header>
-        <h4>{{localize "owner"}}</h4>
-        {{username owner}}
-        {{#if isOwner}}
-          {{>swapOwner}}
-        {{/if}}
-      </header>
-      <ul>
-        {{#each emails}}
-        <li> {{this}}</li>
-        {{/each}}
-      </ul>
+      {{>room_owner}}
     </section>
 
     <section>
-        <header>
-            <h4>szerkesztők<!-- can edit --></h4>
-        </header>
-        <ul>
-            <li>
-                {{>shareEdit}}
-            </li>
-            {{#each editors}}
-            <li>{{username this}}<button class="revoke">{{localize "revoke"}}</button></li>
-            {{/each}}
-        </ul>
+      {{>room_canEdit}}
     </section>
 
     <section>
@@ -82,17 +61,13 @@
   {{/if}}
 </template>
 
+
 <template name="shareEdit">
-    <form id="share">
-        <input name="email" type="email"
-               placeholder="email" autocomplete="off" splellcheck="off"
-               data-source="emails">
-        <button type="submit">szerkesztheti<!-- share --></button>
-    </form>
+    
 </template>
 
 <template name="swapOwner">
-    <form id="transfereOwnership">
+    <form id="transferOwnership">
         <input name="email" type="email"
                placeholder="email" autocomplete="off" splellcheck="off"
                data-source="emails">
